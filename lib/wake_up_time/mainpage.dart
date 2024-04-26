@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:Colors.grey.shade300,
+      color:Color.fromARGB(255, 196, 215, 245),
       alignment: Alignment.topCenter,
       child:SlideTransition(
         position: _offsetAnimation,
@@ -69,29 +69,59 @@ class BigCard extends StatelessWidget{
   });
   final title;
   final Widget page;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color:Colors.white,
-      ),
-      height:300,
-      width:double.infinity,
-      margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-      padding:EdgeInsets.fromLTRB(10,20,10,10),
-      child:Column(
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 25),
+        borderRadius: BorderRadius.circular(25), // 更圓滑的邊角
+        gradient: RadialGradient( // 由内向外的渐变
+          center: Alignment.center,
+          radius: 1, // 半径为1表示从中心向外辐射
+          colors: [Color.fromRGBO(246, 237, 174, 0.925), Color.fromARGB(255, 241, 233, 206)], // 渐变颜色
+        ),
+        boxShadow: [ // 添加陰影效果
+          BoxShadow(
+            color: Color.fromARGB(255, 1, 38, 38).withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
           ),
-          page,
         ],
-      )
+      ),
+      height: 250,
+      width: double.infinity,
+      margin: EdgeInsets.fromLTRB(30, 30, 30, 30),
+      padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+      child: Column(
+        children: [
+      Text(
+        title,
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 24, 9, 108), // 文字颜色
+          fontFamily: 'Roboto',
+          // shadows: [ // 添加阴影
+          //   Shadow(
+          //     offset: Offset(2.0, 2.0),
+          //     blurRadius: 3.0,
+          //     color: Color.fromARGB(150, 0, 0, 0),
+          //   ),
+          // ],
+          letterSpacing: 2.0, // 字间距
+          height: 1.2, // 行间距
+          decoration: TextDecoration.none, // 文本装饰
+        ),
+      ),
+
+          Expanded(child: page), // 確保page部件能夠填滿剩餘空間
+        ],
+      ),
     );
   }
 }
+
 class ViewCard extends StatelessWidget{
   const ViewCard({
     super.key,
@@ -100,37 +130,70 @@ class ViewCard extends StatelessWidget{
   });
   final title;
   final Widget page;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color:Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        gradient: RadialGradient(
+          center: Alignment.center,
+          radius: 1, 
+          colors: [Color.fromRGBO(205, 220, 242, 0.929), Color.fromARGB(255, 98, 181, 245)], 
+        ),
+        boxShadow: [ 
+          BoxShadow(
+            color: Color.fromARGB(255, 11, 53, 57).withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
-      height:380,
+      height:400,
       width:double.infinity,
-      margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-      padding:EdgeInsets.all(20),
+      margin: EdgeInsets.fromLTRB(30, 20, 30, 30),
+      padding: EdgeInsets.fromLTRB(30, 30, 30,30),
       child: Stack(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch, 
             children: [
               Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+              title,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold, 
+                color: Color.fromARGB(255, 24, 9, 108), 
+              ),
+              textAlign: TextAlign.center,
               ),
               page,
             ],
           ),
           Positioned(
-            bottom:5,
-            right:5,
-            child: FilledButton(
-              child: Text("View more..."),
-              onPressed: (){
+            bottom: 5,
+            right: 5,
+            child: ElevatedButton(
+              child: Text(
+                "View more...",
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold, 
+                ),
+              ),
+              onPressed: () {
                 Navigator.of(context).push(_createRoute());
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 86, 138, 228), 
+                foregroundColor: Color.fromARGB(255, 254, 254, 255), 
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // 按钮圆角
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // 内边距调整
+                elevation: 5, // 阴影效果
+              ),
             ),
           )
         ],

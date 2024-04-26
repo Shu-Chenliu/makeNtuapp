@@ -24,12 +24,27 @@ class _HomeScreenState extends State<HomeScreen>{
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
     );
-    
+
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Health'),
-        backgroundColor: Colors.pink.shade100,
+        title: Text(
+          'Smart Slippers',
+          style: TextStyle(
+            color: Colors.white, 
+            fontWeight: FontWeight.bold, 
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 37, 0, 100), 
+        elevation: 4, 
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              
+            },
+          ),
+        ],
       ),
       body: Center(
         child: page,
@@ -37,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen>{
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.bed),
+            icon: Icon(Icons.nights_stay),
             label: 'Sleeping Time',
           ),
           BottomNavigationBarItem(

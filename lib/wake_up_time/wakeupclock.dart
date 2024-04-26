@@ -15,9 +15,12 @@ class ClockView extends StatefulWidget {
 }
 
 class _ClockViewState extends State<ClockView> {
-  Widget time=Text(
-    "AM",
-  );
+Widget time = Text(
+  "AM",
+  style: TextStyle(
+    fontSize: 16
+  ),
+);
   TextStyle style=TextStyle(
     fontSize: 130,
     fontFamily: 'SFDigitalReadout',
@@ -42,15 +45,16 @@ class _ClockViewState extends State<ClockView> {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Colors.black),
-          left: BorderSide(color: Colors.black),
-          bottom: BorderSide(color: Colors.black),
-          right:BorderSide(color: Colors.black),
+          top: BorderSide(color: Color.fromARGB(255, 26, 4, 98)),
+          left: BorderSide(color: Color.fromARGB(255, 26, 4, 98)),
+          bottom: BorderSide(color: Color.fromARGB(255, 26, 4, 98)),
+          right:BorderSide(color: Color.fromARGB(255, 26, 4, 98)),
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
       ),
-      height: 200,
-      padding: EdgeInsets.all(20),
+      height: 150,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
       child: FittedBox(
         fit:BoxFit.contain,
         child: Row(

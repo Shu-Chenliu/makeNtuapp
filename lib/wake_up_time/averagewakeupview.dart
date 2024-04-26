@@ -31,8 +31,30 @@ class _AverageWakeUpViewState extends State<AverageWakeUpView>{
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Health'),
-        backgroundColor: Colors.pink.shade100,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Smart Slippers',
+          style: TextStyle(
+            color: Colors.white, 
+            fontWeight: FontWeight.bold, 
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 27, 1, 74), 
+        elevation: 4, 
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings), 
+            onPressed: () {
+              
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: MongoDb.getTimes(),
@@ -46,7 +68,7 @@ class _AverageWakeUpViewState extends State<AverageWakeUpView>{
               return Center(
                 child: Container(
                   alignment: Alignment.topCenter,
-                  color: Colors.grey.shade300,
+                  color: Color.fromARGB(255, 216, 240, 255),
                   width: double.infinity,
                   padding: EdgeInsets.all(20),
                   child:ListView.builder(

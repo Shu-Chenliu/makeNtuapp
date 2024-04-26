@@ -16,7 +16,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
   var number=0;
-  var color=Colors.grey.shade300;
+  var color=Color.fromARGB(255, 165, 190, 220);
   var drop=false;
   late final AnimationController _controller=AnimationController(
     vsync: this,
@@ -76,10 +76,14 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
       child: SlideTransition(
         position: _offsetAnimation,
         child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 20),
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: SearchButton(func:beep,title: "call my slippers",)
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SearchButton(func:beep, title: "call my slippers",)
             ),
             MoveTo(itemKey: itemKey,onPressed: beep,),
           ],
@@ -108,7 +112,7 @@ class MoveTo extends StatelessWidget {
           func:(){
             itemKey.currentState?.toggle();
           },
-          title:"move my slippers to..."
+          title:"move my\nslippers to..."
         ),
         expansionKey: itemKey,
         isHasTrailing: false,
@@ -139,31 +143,46 @@ class SearchButton extends StatelessWidget {
     required this.func,
     required this.title,
   });
-  final Function func;
-  final title;
+  final VoidCallback func;
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width:double.infinity,
+      width: 200,
+      height: 200,
+        decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient( 
+          center: Alignment.center, 
+          radius: 1, 
+          colors: [
+            Color.fromRGBO(245, 255, 198, 0.922), 
+            Color.fromARGB(255, 255, 255, 255) 
+          ], 
+        ),        
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue.shade300,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+          backgroundColor: Colors.transparent,
+          shape: CircleBorder(),
+          padding: EdgeInsets.zero,
+          elevation: 0,
+          shadowColor: Colors.transparent,
         ),
-        onPressed: () {
-          func();
-        },
-        child: Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        onPressed: func,
+        child: Padding( 
+          padding: const EdgeInsets.all(16.0), 
           child: Text(
             title,
-            style:TextStyle(
-              fontSize: 30,
+            style: TextStyle(
+              fontSize: 25, 
               fontWeight: FontWeight.w500,
-              color: Colors.white,
+              color: Color.fromARGB(255, 0, 35, 95),
             ),
+            softWrap: true, 
+            overflow: TextOverflow.visible, 
+            textAlign: TextAlign.center,
           ),
         ),
       ),
