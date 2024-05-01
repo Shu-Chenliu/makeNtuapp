@@ -1,30 +1,24 @@
-import 'dart:async';
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'dart:math';
-
-import 'package:flutter/widgets.dart';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
+import 'package:flutter/widgets.dart';
 
 class Search extends StatefulWidget {
+  const Search({super.key});
   @override
   _SearchState createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
   var number=0;
-  var color=Color.fromARGB(255, 165, 190, 220);
+  var color=const Color.fromARGB(255, 165, 190, 220);
   var drop=false;
   late final AnimationController _controller=AnimationController(
     vsync: this,
     duration: const Duration(seconds: 2),
   );
   late final Animation<Offset> _offsetAnimation=Tween<Offset>(
-    begin:Offset(0,1),
-    end:Offset(0,0),
+    begin:const Offset(0,1),
+    end:const Offset(0,0),
   ).animate(
     CurvedAnimation(
       parent: _controller, 
@@ -59,9 +53,10 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
     setState(() {
       color = Colors.amber;
     });
+    //TODO: connect with bluetooth and send data to beep
   }
   void move(){
-
+    //TODO: connect with bluetooth and send data to move
   }
   @override
   void dispose(){
@@ -76,10 +71,10 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
       child: SlideTransition(
         position: _offsetAnimation,
         child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -117,11 +112,11 @@ class MoveTo extends StatelessWidget {
         expansionKey: itemKey,
         isHasTrailing: false,
         children: [
-          Container(
+          SizedBox(
             width:double.infinity,
             child: ElevatedButton(
               onPressed: (){
-                onPressed();
+                
               },
               child: Text(
                 "My Bed",
@@ -151,7 +146,7 @@ class SearchButton extends StatelessWidget {
     return Container(
       width: 200,
       height: 200,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: RadialGradient( 
           center: Alignment.center, 
@@ -165,7 +160,7 @@ class SearchButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           padding: EdgeInsets.zero,
           elevation: 0,
           shadowColor: Colors.transparent,
@@ -175,7 +170,7 @@ class SearchButton extends StatelessWidget {
           padding: const EdgeInsets.all(16.0), 
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 25, 
               fontWeight: FontWeight.w500,
               color: Color.fromARGB(255, 0, 35, 95),

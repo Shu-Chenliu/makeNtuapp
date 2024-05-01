@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:makentuapp/wake_up_time/mainpage.dart';
 import 'package:makentuapp/search/searchforshoe.dart';
+import 'package:makentuapp/connect_bt_drawer.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
@@ -35,16 +36,22 @@ class _HomeScreenState extends State<HomeScreen>{
             fontWeight: FontWeight.bold, 
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 37, 0, 100), 
+        backgroundColor: Color.fromARGB(255, 30, 0, 81), 
         elevation: 4, 
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              
-            },
+        actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
           ),
         ],
+      ),
+      endDrawer: const Drawer(
+        child: ConnectBT(),
       ),
       body: Center(
         child: page,
@@ -57,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen>{
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Find Shoes',
+            label: 'Find Slippers',
           ),
         ],
         currentIndex: barIndex,

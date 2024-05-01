@@ -22,6 +22,7 @@ dependencies:
   sqflite: ^2.3.3
   path: ^1.9.0
   mongo_dart: ^0.10.1
+  flutter_blue_plus: ^1.32.4
 
 dev_dependencies:
   flutter_test:

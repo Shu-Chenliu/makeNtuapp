@@ -78,7 +78,7 @@ class BigCard extends StatelessWidget{
         gradient: RadialGradient( // 由内向外的渐变
           center: Alignment.center,
           radius: 1, // 半径为1表示从中心向外辐射
-          colors: [Color.fromRGBO(246, 237, 174, 0.925), Color.fromARGB(255, 241, 233, 206)], // 渐变颜色
+          colors: [Color.fromRGBO(255, 240, 125, 0.922), Color.fromARGB(255, 255, 255, 255)], // 渐变颜色
         ),
         boxShadow: [ // 添加陰影效果
           BoxShadow(
@@ -91,31 +91,24 @@ class BigCard extends StatelessWidget{
       ),
       height: 250,
       width: double.infinity,
-      margin: EdgeInsets.fromLTRB(30, 30, 30, 30),
-      padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+      margin: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+      padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
       child: Column(
         children: [
       Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
-          color: Color.fromARGB(255, 24, 9, 108), // 文字颜色
+          color: Color.fromARGB(255, 14, 0, 95), 
           fontFamily: 'Roboto',
-          // shadows: [ // 添加阴影
-          //   Shadow(
-          //     offset: Offset(2.0, 2.0),
-          //     blurRadius: 3.0,
-          //     color: Color.fromARGB(150, 0, 0, 0),
-          //   ),
-          // ],
-          letterSpacing: 2.0, // 字间距
-          height: 1.2, // 行间距
-          decoration: TextDecoration.none, // 文本装饰
+          letterSpacing: 2.0, 
+          height: 1.2, 
+          decoration: TextDecoration.none,
         ),
       ),
 
-          Expanded(child: page), // 確保page部件能夠填滿剩餘空間
+          Expanded(child: page),
         ],
       ),
     );
@@ -136,10 +129,10 @@ class ViewCard extends StatelessWidget{
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        gradient: RadialGradient(
+        gradient: const RadialGradient(
           center: Alignment.center,
           radius: 1, 
-          colors: [Color.fromRGBO(205, 220, 242, 0.929), Color.fromARGB(255, 98, 181, 245)], 
+          colors: [Color.fromRGBO(162, 220, 249, 0.922), Color.fromARGB(255, 255, 255, 255)], 
         ),
         boxShadow: [ 
           BoxShadow(
@@ -150,7 +143,7 @@ class ViewCard extends StatelessWidget{
           ),
         ],
       ),
-      height:400,
+      height:350,
       width:double.infinity,
       margin: EdgeInsets.fromLTRB(30, 20, 30, 30),
       padding: EdgeInsets.fromLTRB(30, 30, 30,30),
@@ -164,7 +157,7 @@ class ViewCard extends StatelessWidget{
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold, 
-                color: Color.fromARGB(255, 24, 9, 108), 
+                color: Color.fromARGB(255, 15, 3, 85), 
               ),
               textAlign: TextAlign.center,
               ),
@@ -172,8 +165,8 @@ class ViewCard extends StatelessWidget{
             ],
           ),
           Positioned(
-            bottom: 5,
-            right: 5,
+            bottom: 1,
+            right: 3,
             child: ElevatedButton(
               child: Text(
                 "View more...",
@@ -186,7 +179,7 @@ class ViewCard extends StatelessWidget{
                 Navigator.of(context).push(_createRoute());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 86, 138, 228), 
+                backgroundColor: Color.fromARGB(255, 66, 71, 165), 
                 foregroundColor: Color.fromARGB(255, 254, 254, 255), 
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // 按钮圆角

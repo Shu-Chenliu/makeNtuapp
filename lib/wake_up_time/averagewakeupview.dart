@@ -5,30 +5,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:makentuapp/database/databaseService.dart';
 import 'package:makentuapp/database/mongodb.dart';
 import 'package:makentuapp/modal/wakeuptimeclass.dart';
+
 class AverageWakeUpView extends StatefulWidget {
   const AverageWakeUpView({super.key});
   @override
   _AverageWakeUpViewState createState() => _AverageWakeUpViewState();
 }
-class _AverageWakeUpViewState extends State<AverageWakeUpView>{
-  TextStyle weekstyle=TextStyle(
-    fontSize: 50,
 
+class _AverageWakeUpViewState extends State<AverageWakeUpView> {
+  TextStyle weekstyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: Colors.grey[800],
   );
-  TextStyle timestyle=TextStyle(
-    fontSize: 70,
+  TextStyle timestyle = TextStyle(
+    fontSize: 48,
     fontFamily: 'SFDigitalReadout',
     fontWeight: FontWeight.bold,
-    letterSpacing: 1,
+    color: Colors.blue[900],
+    letterSpacing: 2,
   );
+
   @override
-  void initState() {
-    super.initState();
-  }
-  @override
-  
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -41,50 +40,39 @@ class _AverageWakeUpViewState extends State<AverageWakeUpView>{
         title: Text(
           'Smart Slippers',
           style: TextStyle(
-            color: Colors.white, 
-            fontWeight: FontWeight.bold, 
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 27, 1, 74), 
-        elevation: 4, 
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings), 
-            onPressed: () {
-              
-            },
-          ),
-        ],
+        backgroundColor: Color.fromARGB(255, 27, 1, 74),
+        elevation: 4,
       ),
       body: FutureBuilder(
         future: MongoDb.getTimes(),
-        builder:(context, snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
-          } else if(snapshot.hasData){
-            if (snapshot.data !=null) {
+          } else if (snapshot.hasData) {
+            if (snapshot.data != null) {
               return Center(
                 child: Container(
                   alignment: Alignment.topCenter,
-                  color: Color.fromARGB(255, 216, 240, 255),
+                  color: Color.fromARGB(255, 237, 219, 247),
                   width: double.infinity,
                   padding: EdgeInsets.all(20),
-                  child:ListView.builder(
+                  child: ListView.builder(
                     itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) => wakeUp(weekstyle: weekstyle, timestyle: timestyle, time: wakeuptime.fromMap(snapshot.data![index])),
-                    // children: [
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Mon',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Tue',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Wed',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Thu',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Fri',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Sat',time: "07:00",),
-                    //   wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Sun',time: "07:00",),
-                    // ],
+                    itemBuilder: (context, index) => WakeUp(
+                      weekstyle: weekstyle,
+                      timestyle: timestyle,
+                      time: wakeuptime.fromMap(snapshot.data![index]),
+                    ),
                   ),
-                )
+                ),
               );
             }
             return const Center(
@@ -92,33 +80,14 @@ class _AverageWakeUpViewState extends State<AverageWakeUpView>{
             );
           }
           return const SizedBox.shrink();
-        },   
+        },
       ),
-      // body:Center(
-      //   child: Container(
-      //     alignment: Alignment.topCenter,
-      //     color: Colors.grey.shade300,
-      //     width: double.infinity,
-      //     padding: EdgeInsets.all(20),
-      //     child:ListView(
-      //       children: [
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Mon',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Tue',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Wed',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Thu',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Fri',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Sat',time: "07:00",),
-      //         wakeUp(weekstyle: weekstyle, timestyle: timestyle,dayofweek: 'Sun',time: "07:00",),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
 
-class wakeUp extends StatelessWidget {
-  const wakeUp({
+class WakeUp extends StatelessWidget {
+  const WakeUp({
     super.key,
     required this.weekstyle,
     required this.timestyle,
@@ -128,33 +97,28 @@ class wakeUp extends StatelessWidget {
   final TextStyle weekstyle;
   final TextStyle timestyle;
   final wakeuptime time;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children:[
-          Expanded(
-            child: Container(
-              alignment: Alignment(0.0,0),
-              child: Text(
-                time.daysofweek,
-                style:weekstyle,
-              ),
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              time.daysofweek,
+              style: weekstyle,
             ),
-          ),
-          SizedBox(width:20),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(5,10,0,0),
-              alignment: Alignment.center,
-              child:Text(
-                time.time,
-                style:timestyle,
-              ),
+            Text(
+              time.time,
+              style: timestyle,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

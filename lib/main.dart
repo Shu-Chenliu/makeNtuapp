@@ -8,8 +8,10 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
   await MongoDb.connect();
   // await DatabaseService.instance.database;
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 158, 175, 189)),
       ),
       home: const HomeScreen(),
     );
