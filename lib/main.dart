@@ -3,11 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:makentuapp/database/databaseService.dart';
 import 'package:makentuapp/database/mongodb.dart';
 import 'package:makentuapp/home.dart';
-import 'dart:async';
 
-import 'package:flutter/widgets.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

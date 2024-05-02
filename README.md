@@ -19,8 +19,10 @@ samples, guidance on mobile development, and a full API reference.
 
 clone the app
 
-type flutter pub get
+go to pubspec.yaml
+
+press get packages on the top right corner
 
 go to main
 
-press debug
+press debug on the top right corner(remember to open android studio first and connect to your phone)
