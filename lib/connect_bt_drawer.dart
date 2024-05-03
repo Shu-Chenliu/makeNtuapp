@@ -90,28 +90,50 @@ class _ConnectBTState extends State<ConnectBT>{
     return Future.delayed(Duration(milliseconds: 500));
   }
 
-  Widget buildScanButton(BuildContext context) {
-    if (FlutterBluePlus.isScanningNow) {
-      return Container(
-        alignment: Alignment.centerRight,
-        child: ElevatedButton(
-          child: const Icon(Icons.stop),
-          onPressed: onStopPressed,
-          style: ButtonStyle(
-            //CKZ'S TODO
+Widget buildScanButton(BuildContext context) {
+  final ButtonStyle scanningButtonStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+      if (states.contains(MaterialState.disabled)) {
+        return Colors.grey; // Disabled color
+      }
+      return const Color.fromARGB(255, 248, 44, 29); // Regular color
+    }),
+    foregroundColor: MaterialStateProperty.all(Colors.white), // Text/icon color
+    padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30),
+    )),
+    elevation: MaterialStateProperty.all(10), // Add shadow.
+  );
+
+  final ButtonStyle notScanningButtonStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 126, 189, 241)), // Button color
+    foregroundColor: MaterialStateProperty.all(Colors.white), // Text/icon color
+    padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30),
+    )),
+    elevation: MaterialStateProperty.all(10), // Add shadow
+  );
+
+  return Container(
+    alignment: Alignment.centerRight,
+    margin: EdgeInsets.all(10), // margin for the container
+    child: FlutterBluePlus.isScanningNow
+        ? ElevatedButton.icon(
+            onPressed: onStopPressed,
+            icon: const Icon(Icons.stop),
+            label: const Text('STOP'),
+            style: scanningButtonStyle,
+          )
+        : ElevatedButton.icon(
+            onPressed: onScanPressed,
+            icon: const Icon(Icons.search),
+            label: const Text('Scan for my slippers'),
+            style: notScanningButtonStyle,
           ),
-        ),
-      );
-    } else {
-      return Container(
-        alignment: Alignment.centerRight,
-        child: ElevatedButton(
-          child: const Text("Scan for my slippers"),
-          onPressed: onScanPressed,
-        ),
-      );
-    }
-  }
+  );
+}
 
   List<Widget> _buildSystemDeviceTiles(BuildContext context) {
     return _systemDevices
@@ -150,7 +172,7 @@ class _ConnectBTState extends State<ConnectBT>{
           height: 100,
           child: DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Color.fromARGB(255, 24, 0, 118),
             ),
             child: buildScanButton(context),
           ),

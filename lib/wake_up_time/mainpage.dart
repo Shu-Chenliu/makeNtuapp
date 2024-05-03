@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -94,6 +93,7 @@ class BigCard extends StatelessWidget{
       margin: const EdgeInsets.fromLTRB(30, 30, 30, 30),
       padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, 
         children: [
       Text(
         title,
@@ -102,12 +102,10 @@ class BigCard extends StatelessWidget{
           fontWeight: FontWeight.bold,
           color: Color.fromARGB(255, 14, 0, 95), 
           fontFamily: 'Roboto',
-          letterSpacing: 2.0, 
-          height: 1.2, 
           decoration: TextDecoration.none,
         ),
+        textAlign: TextAlign.center,
       ),
-
           Expanded(child: page),
         ],
       ),
@@ -143,9 +141,9 @@ class ViewCard extends StatelessWidget{
           ),
         ],
       ),
-      height:350,
+      height:320,
       width:double.infinity,
-      margin: EdgeInsets.fromLTRB(30, 20, 30, 30),
+      margin: EdgeInsets.fromLTRB(30, 15, 30, 30),
       padding: EdgeInsets.fromLTRB(30, 30, 30,30),
       child: Stack(
         children: [
@@ -158,6 +156,8 @@ class ViewCard extends StatelessWidget{
                 fontSize: 25,
                 fontWeight: FontWeight.bold, 
                 color: Color.fromARGB(255, 15, 3, 85), 
+                fontFamily: 'Roboto',
+                decoration: TextDecoration.none,
               ),
               textAlign: TextAlign.center,
               ),
@@ -169,7 +169,7 @@ class ViewCard extends StatelessWidget{
             right: 3,
             child: ElevatedButton(
               child: Text(
-                "View more...",
+                "View record",
                 style: TextStyle(
                   fontSize: 16, 
                   fontWeight: FontWeight.bold, 

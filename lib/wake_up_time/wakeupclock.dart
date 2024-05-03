@@ -18,14 +18,13 @@ class _ClockViewState extends State<ClockView> {
 Widget time = Text(
   "AM",
   style: TextStyle(
-    fontSize: 50
+    fontSize: 90
   ),
 );
   TextStyle style=TextStyle(
     fontSize: 150,
     fontFamily: 'SFDigitalReadout',
     fontWeight: FontWeight.bold,
-    letterSpacing: 0.5,
   );
   late String hour;
   late String minutes;
@@ -52,16 +51,16 @@ Widget time = Text(
         ),
         borderRadius: BorderRadius.circular(30),
       ),
-      height: 150,
+      height: 90,
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(15),
       child: FittedBox(
-        fit:BoxFit.contain,
+        fit: BoxFit.contain,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             time,
-            SizedBox(width:10),
+            SizedBox(width:50),
             Text(
               hour,
               style: style,
