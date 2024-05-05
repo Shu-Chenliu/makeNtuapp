@@ -6,8 +6,12 @@ import '../utils/snackbar.dart';
 import '../widgets/system_device_tile.dart';
 import '../widgets/scan_result_tile.dart';
 import '../utils/extra.dart';
+import 'package:makentuapp/search/searchforshoe.dart';
+import 'package:makentuapp/search/device_screen.dart';
+import 'package:makentuapp/search/searchpage.dart';
 class ConnectBT extends StatefulWidget {
-  const ConnectBT({super.key});
+  const ConnectBT({super.key,required this.onDeviceSelected});
+  final void Function(BluetoothDevice device) onDeviceSelected;
   @override
   _ConnectBTState createState() => _ConnectBTState();
 }
@@ -23,7 +27,7 @@ class _ConnectBTState extends State<ConnectBT>{
     super.initState();
 
     _scanResultsSubscription = FlutterBluePlus.scanResults.listen((results) {
-      _scanResults = results;
+      _scanResults = results.where((element) => element.rssi>=-70).toList();
       if (mounted) {
         setState(() {});
       }
@@ -53,7 +57,7 @@ class _ConnectBTState extends State<ConnectBT>{
       Snackbar.show(ABC.b, prettyException("System Devices Error:", e), success: false);
     }
     try {
-      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
+      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
     } catch (e) {
       Snackbar.show(ABC.b, prettyException("Start Scan Error:", e), success: false);
     }
@@ -74,10 +78,11 @@ class _ConnectBTState extends State<ConnectBT>{
     device.connectAndUpdateStream().catchError((e) {
       Snackbar.show(ABC.c, prettyException("Connect Error:", e), success: false);
     });
+
     //TODO
-    // MaterialPageRoute route = MaterialPageRoute(
-    //     builder: (context) => DeviceScreen(device: device), settings: RouteSettings(name: '/DeviceScreen'));
-    // Navigator.of(context).push(route);
+    MaterialPageRoute route = MaterialPageRoute(
+        builder: (context) => SearchPage(device: device));
+    Navigator.of(context).push(route);
   }
 
   Future onRefresh() {
@@ -138,16 +143,17 @@ Widget buildScanButton(BuildContext context) {
   List<Widget> _buildSystemDeviceTiles(BuildContext context) {
     return _systemDevices
         .map(
-          (d) => SystemDeviceTile(
+          (d) => 
+          SystemDeviceTile(
             device: d,
-            onOpen: (){},
+            // onOpen: (){},
             //TODO
-            // onOpen: () => Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => DeviceScreen(device: d),
-            //     settings: RouteSettings(name: '/DeviceScreen'),
-            //   ),
-            // ),
+            onOpen: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SearchPage(device: d),
+                // settings: RouteSettings(name: '/SearchForShoe'),
+              ),
+            ),
             onConnect: () => onConnectPressed(d),
           ),
         )

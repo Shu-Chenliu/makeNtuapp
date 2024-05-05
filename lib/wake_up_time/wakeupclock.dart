@@ -18,11 +18,11 @@ class _ClockViewState extends State<ClockView> {
 Widget time = Text(
   "AM",
   style: TextStyle(
-    fontSize: 90
+    fontSize: 80
   ),
 );
   TextStyle style=TextStyle(
-    fontSize: 150,
+    fontSize: 250,
     fontFamily: 'SFDigitalReadout',
     fontWeight: FontWeight.bold,
   );
@@ -33,7 +33,9 @@ Widget time = Text(
     hour = widget.datetime.substring(0,2);
     minutes=widget.datetime.substring(3);
     if(int.parse(hour)>=12){
-      time=Text("PM");
+      time=Text("PM",style: TextStyle(
+    fontSize: 80
+  ),);
     }
     super.initState();
     
@@ -53,14 +55,14 @@ Widget time = Text(
       ),
       height: 90,
       margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(5),
       child: FittedBox(
         fit: BoxFit.contain,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             time,
-            SizedBox(width:50),
+            SizedBox(width:40),
             Text(
               hour,
               style: style,

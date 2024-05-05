@@ -185,17 +185,21 @@
 //   }
 // }
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math';
-
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:expansion_tile_group/expansion_tile_group.dart';
-
+import '../utils/snackbar.dart';
+import '../utils/extra.dart';
 class Search extends StatefulWidget {
+  final BluetoothDevice device;
+  const Search({super.key,required this.device});
   @override
   _SearchState createState() => _SearchState();
 }
@@ -208,6 +212,19 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
     vsync: this,
     duration: const Duration(seconds: 2),
   );
+  int? _rssi;
+  int? _mtuSize;
+  BluetoothConnectionState _connectionState = BluetoothConnectionState.disconnected;
+  List<BluetoothService> _services = [];
+
+  bool _isDiscoveringServices = false;
+  bool _isConnecting = false;
+  bool _isDisconnecting = false;
+
+  late StreamSubscription<BluetoothConnectionState> _connectionStateSubscription;
+  late StreamSubscription<bool> _isConnectingSubscription;
+  late StreamSubscription<bool> _isDisconnectingSubscription;
+  late StreamSubscription<int> _mtuSubscription;
   late final Animation<Offset> _offsetAnimation=Tween<Offset>(
     begin:Offset(0,1),
     end:Offset(0,0),
@@ -221,38 +238,111 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin{
       ),
     ),
   );
-  final ExpansionTileController _expansionTileController = ExpansionTileController();
-  late final Animation<Offset> _animation=Tween<Offset>(
-    begin:Offset(0,0),
-    end:Offset(0,1),
-  ).animate(
-    CurvedAnimation(
-      parent: _controller, 
-      curve:const Interval(
-        0.0,
-        2,
-        curve: Curves.elasticIn,
-      ),
-    ),
-  );
+  final String SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+  final String CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+  final String TARGET_DEVICE_NAME = "ESP32 makeNTU";
   final GlobalKey<ExpansionTileCustomState> itemKey = GlobalKey();
+  
   @override
-  void initState() {
+  void initState()async {
     super.initState();
-    _controller.forward();
-  }
-  void beep(){
-    setState(() {
-      color = Color.fromARGB(255, 188, 224, 241);
-    });
-  }
-  void move(){
 
+    _connectionStateSubscription = widget.device.connectionState.listen((state) async {
+      _connectionState = state;
+      if (state == BluetoothConnectionState.connected) {
+        _services = []; // must rediscover services
+      }
+      if (state == BluetoothConnectionState.connected && _rssi == null) {
+        _rssi = await widget.device.readRssi();
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    
   }
   @override
-  void dispose(){
+  void dispose() {
+    _connectionStateSubscription.cancel();
+    _mtuSubscription.cancel();
+    _isConnectingSubscription.cancel();
+    _isDisconnectingSubscription.cancel();
     _controller.dispose();
     super.dispose();
+  }
+  bool get isConnected {
+    return _connectionState == BluetoothConnectionState.connected;
+  }
+  // Future onWritePressed() async {
+  //   if (mounted) {
+  //     setState(() {
+  //       _isDiscoveringServices = true;
+  //     });
+  //   }
+  //   try {
+  //     _services = await widget.device.discoverServices();
+  //     Snackbar.show(ABC.c, "Discover Services: Success", success: true);
+  //   } catch (e) {
+  //     Snackbar.show(ABC.c, prettyException("Discover Services Error:", e), success: false);
+  //   }
+  //   if (mounted) {
+  //     setState(() {
+  //       _isDiscoveringServices = false;
+  //     });
+  //   }
+  //   for(BluetoothService service in _services){
+  //     List<BluetoothCharacteristic> characteristics=service.characteristics;
+  //     for(BluetoothCharacteristic characteristic in characteristics){
+  //       if(characteristic.properties.write){
+  //         BluetoothCharacteristic c=characteristic;
+  //         try {
+  //           await c.write(utf8.encode("sing"), withoutResponse: c.properties.writeWithoutResponse);
+  //           if (c.properties.read) {
+  //             await c.read();
+  //           }
+  //         } catch (e) {
+            
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  Future beep()async{
+    // if (mounted) {
+    //   setState(() {
+    //     _isDiscoveringServices = true;
+    //   });
+    // }
+    // try {
+    //   _services = await widget.device.discoverServices();
+    //   Snackbar.show(ABC.c, "Discover Services: Success", success: true);
+    // } catch (e) {
+    //   Snackbar.show(ABC.c, prettyException("Discover Services Error:", e), success: false);
+    // }
+    // if (mounted) {
+    //   setState(() {
+    //     _isDiscoveringServices = false;
+    //   });
+    // }
+    // for(BluetoothService service in _services){
+    //   List<BluetoothCharacteristic> characteristics=service.characteristics;
+    //   for(BluetoothCharacteristic characteristic in characteristics){
+    //     if(characteristic.properties.write){
+    //       BluetoothCharacteristic c=characteristic;
+    //       try {
+    //         await c.write(utf8.encode("sing"), withoutResponse: c.properties.writeWithoutResponse);
+    //         if (c.properties.read) {
+    //           await c.read();
+    //         }
+    //       } catch (e) {
+            
+    //       }
+    //     }
+    //   }
+    // }
+  }
+  void move()async{
+
   }
   @override
   Widget build(BuildContext context) {

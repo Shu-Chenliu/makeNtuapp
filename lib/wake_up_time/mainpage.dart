@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:makentuapp/wake_up_time/averagewakeupview.dart';
 import 'package:makentuapp/wake_up_time/wakeupclock.dart';
 import 'package:makentuapp/wake_up_time/averagewakeupview.dart';
+import 'package:makentuapp/database/mongodb.dart';
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -49,11 +50,30 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
       alignment: Alignment.topCenter,
       child:SlideTransition(
         position: _offsetAnimation,
-        child: ListView(
-          children: [
-            BigCard(title: "Today's Wake up Time",page:ClockView(datetime: "07:00",)),
-            ViewCard(title: "Average wake up time this week", page:ClockView(datetime: "07:40",)),
-          ],
+        child: FutureBuilder(
+          future: MongoDb.getTime(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            } else if (snapshot.hasData) {
+              if (snapshot.data != null) {
+                return ListView(
+                  children: [
+                    BigCard(title: "Today's Wake up Time",page:ClockView(datetime: snapshot.data![0],)),
+                    ViewCard(title: "Average wake up time this week", page:ClockView(datetime: snapshot.data![1],)),
+                  ],
+                );
+              }
+              return const Center(
+                child: Text('No data yet'),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );
@@ -74,9 +94,9 @@ class BigCard extends StatelessWidget{
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25), // 更圓滑的邊角
-        gradient: RadialGradient( // 由内向外的渐变
+        gradient: RadialGradient( 
           center: Alignment.center,
-          radius: 1, // 半径为1表示从中心向外辐射
+          radius: 1,
           colors: [Color.fromRGBO(255, 240, 125, 0.922), Color.fromARGB(255, 255, 255, 255)], // 渐变颜色
         ),
         boxShadow: [ // 添加陰影效果

@@ -115,14 +115,14 @@ Widget _buildConnectButton(BuildContext context) {
         // Change to subtitle1 for a bit larger and bolder title that stands out
         Text(
           title,
-          style: theme.textTheme.subtitle1?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(width: 12.0),
         Expanded(
           // Change to bodyText2 for the value which is a standard body text style
           child: Text(
             value,
-            style: theme.textTheme.bodyText2,
+            style: theme.textTheme.bodyMedium,
             softWrap: true,
           ),
         ),
@@ -163,7 +163,7 @@ Widget build(BuildContext context) {
             ),
             child: Text(
               widget.result.rssi.toString(),
-              style: theme.textTheme.bodyText1?.copyWith(color: theme.colorScheme.onPrimary),
+              style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onPrimary),
             ),
           ),
           trailing: _buildConnectButton(context),

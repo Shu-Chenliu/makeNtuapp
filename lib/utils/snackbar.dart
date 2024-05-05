@@ -26,8 +26,28 @@ class Snackbar {
 
   static show(ABC abc, String msg, {required bool success}) {
     final snackBar = success
-        ? SnackBar(content: Text(msg), backgroundColor: Colors.blue)
-        : SnackBar(content: Text(msg), backgroundColor: Colors.red);
+        ? SnackBar(
+          content: Text(
+            msg,
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ), 
+          backgroundColor: Color.fromRGBO(89, 231, 101, 0.82),
+          duration: const Duration(milliseconds: 1500),
+          width: 300.0, // Width of the SnackBar.
+          padding: const EdgeInsets.all(10),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        )
+        : SnackBar(
+          content: Text(msg), 
+          backgroundColor: Colors.red
+        );
     getSnackbar(abc).currentState?.removeCurrentSnackBar();
     getSnackbar(abc).currentState?.showSnackBar(snackBar);
   }
